@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<header>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+    <title>
+        Save My Evidence
+    </title>
+</header>
+
+
+<body>
+
+    <div id="main-form">
+
+        <h1 id="elegantshadow"> SAVE MY EVIDENCE </h1>
+
+        <form action="saveURL" method="POST" id="saveURL" onsubmit="return imprimirResultado();">
+
+            <p id="form-text">Guardar evidencia forense para esta URL: </p>
+            <input type="text" name="url" id="webURL" placeholder="Escribe aqui la URL">
+            <br><br>
+            <input type="submit" id="guardar-b" value="Guardar">
+
+        </form>
+
+
+    </div>
+
+    <div class="parallax"></div>
+
+    <div id="site-description">
+        <div id="site-description-text">
+            <h2 id="title"> Save My Evidence: </h2>
+            <b>Save My Evidence</b> es un programa para guardar evidencias de contenido en páginas web, en el transfondo
+            <br> utiliza la tecnología <b>Blockchain</b> para asegurar la integridad de la información. <br> Para
+            utilizar esta herramienta: <br>
+            <ul>
+                <li> Debes tener instalado <a id="link1" href="https://metamask.io/"> <b>Metamask</b> </a>.</li>
+                <li><b>Escribe</b> en el formulario la <b>URL</b> de la cual deseas obtener la evidencia.</li>
+                <li> Ejemplo: https://www.ejemplo.com </li>
+                <li> Pulsa sobre el botón <b>Guardar</b>.</li>
+                <li>Al guardar la evidencia se realizará una transacción, podrás ver el <b>resultado</b> con Metamask.</li>
+                <li>Se te descontará del saldo la cantidad correspondiente.</li>
+                <li>Podrás ver la evidencia almacenada en la red utilizada, por defecto <b>Ganache</b>. </li>                
+            </ul>
+
+            Los datos almacenados sobre cada evidencia son los siguientes:
+
+            <ul>
+                <li><b>timestamp:</b> Fecha en formato Unix del momento en que se guardó. </li>
+                <li><b>URL original:</b> URL sobre la que se ha guardado la evidencia. </li>
+                <li><b>Datos:</b> Datos en formato JSON, según la versión se almacenan distintos datos, en la versión 1 se almacena el HASH de la web.</li>
+                <li><b>Versión:</b> Versión actual del programa, según la versión se almacenan distintos datos, en la versión 1 se almacena el HASH.</li>
+            </ul>
+
+            Para más información contactar con Rubén: <b>rubencav@correo.ugr.es</b>
+        </div>
+    </div>
+
+
+</body>
+
+<script>
+
+
+
+
+    // Comprobamos que el usuario introduce URL válida
+    function validURL(str) {
+        var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+        var regex = new RegExp(expression);
+        return str.match(regex);
+    }
+
+
+
+    function imprimirResultado() {
+
+        // Nos quedamos con la URL a almacenar
+        var webURL = $('#webURL').val();
+
+        if (!validURL(webURL)) {
+            Swal.fire({
+                titleText: 'URL no válida',
+                text: 'Escribe una URL válida',
+                type: 'error',
+                toast: false,
+                heightAuto: false,
+                scrollbarPadding: false,
+            })
+
+            return false;
+
+        } else {
+
+            // Si el usuario no tiene Metamask instalado
+            if (typeof web3 === 'undefined') {
+
+                Swal.fire({
+                    titleText: 'Oops...',
+                    text: 'Necesitas tener Metamask instalado',
+                    type: 'error',
+                    toast: false,
+                    heightAuto: false,
+                    scrollbarPadding: false,
+                    footer: '<a href="https://metamask.io/"> ¿Qué es Metamask? </a>'
+                })
+
+                return false;
+
+            } else { 
+                
+                // Si tiene metamask instalado
+                
+                // Hacer la comunicación con node
+                
+                const destination = '0x632dCD52d1c838E3eCb8a3453607f2914EaD0745';       //Segunda cuenta de ganache (la del oraculo)
+                const value = web3.toWei('0.0001', 'ether');
+                ethereum.enable()
+
+                    // Remember to handle the case they reject the request:
+                    .catch(function (reason) {
+                        if (reason === 'User rejected provider access') {
+                            // The user didn't want to sign in!
+                            return false;
+                        } else {
+                            // This shouldn't happen, so you might want to log this...
+                            alertError('Problema iniciando sesión')                                            
+                            return false;
+                        }
+
+                        return false;
+                    })
+
+                    // In the case they approve the log-in request, you'll receive their accounts:
+                    .then(function (accounts) {
+                        // You also should verify the user is on the correct network:
+
+
+                        // Once you have a reference to user accounts,
+                        // you can suggest transactions and signatures:
+                        const account = accounts[0]
+                        sendEtherFrom(account, function (err, transaction) {
+                            if (err) {
+                                alertError(`Transacción no realizada`)
+
+                                return false;
+                            }
+
+                        })
+
+                    })
+
+
+                function sendEtherFrom(account, callback) {
+
+                    // We're going to use the lowest-level API here, with simpler example links below
+                    const method = 'eth_sendTransaction'
+                    const parameters = [{
+                        from: account,
+                        to: destination,
+                        value: value,
+                    }]
+                    const from = account
+
+                    // Now putting it all together into an RPC request:
+                    const payload = {
+                        method: method,
+                        params: parameters,
+                        from: from,
+                    }
+
+                    // Methods that require user authorization like this one will prompt a user interaction.
+                    // Other methods (like reading from the blockchain) may not.
+                    ethereum.sendAsync(payload, function (err, response) {
+                        const rejected = 'User denied transaction signature.'
+                        if (response.error && response.error.message.includes(rejected)) {
+                            alertError(`Transacción cancelada, no se han retirado fondos`)
+
+                            return false;
+                        }
+
+                        if (err) {
+                            alertError('Error, intentalo de nuevo')
+
+                            return false;
+                        }
+
+                        
+                    }).then(function(response){
+                        if (response.result) {
+                            // If there is a response.result, the call was successful.
+                           
+                            alertExito();
+                            return true;
+
+
+                        } else {
+                            return false;
+                        }
+                    });
+                }                
+            }
+        }
+        
+    } // imprimirResultado
+
+
+    function alertExito() {
+
+        Swal.fire({
+            titleText: 'Guardada',
+            text: 'La evidencia ha sido almacenada correctamente',
+            type: 'success',
+            toast: false,
+            heightAuto: false,
+            scrollbarPadding: false
+        })
+    }
+
+
+    function alertError(text) {
+        Swal.fire({
+            titleText: 'Oops...',
+            text: text,
+            type: 'error',
+            toast: false,
+            heightAuto: false,
+            scrollbarPadding: false,
+        })
+    }
+</script>
+
+
+</html>

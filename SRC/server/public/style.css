@@ -1,0 +1,122 @@
+body,
+html {
+    background-image: url('bg2.svg');
+    background-color: #3d3d3a;
+    height: 100%;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+h1 {
+    font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+    font-size: 92px;
+    padding: 80px 50px;
+    text-align: center;
+    text-transform: uppercase;
+    text-rendering: optimizeLegibility;
+}
+    #elegantshadow {
+      color: white;
+      background-color: transparent;
+      letter-spacing: .15em;
+      text-shadow: 
+        1px -1px 0 #767676, 
+        -1px 2px 1px #737272, 
+        -2px 4px 1px #767474, 
+        -3px 6px 1px #787777, 
+        -4px 8px 1px #7b7a7a, 
+        -5px 10px 1px #7f7d7d, 
+        -6px 12px 1px #828181, 
+        -7px 14px 1px #868585, 
+        -8px 16px 1px #8b8a89, 
+        -9px 18px 1px #8f8e8d, 
+        -10px 20px 1px #949392, 
+        -11px 22px 1px transparent, 
+        -12px 24px 1px transparent, 
+        -13px 26px 1px transparent, 
+        -14px 28px 1px transparent, 
+        -15px 30px 1px transparent, 
+        -16px 32px 1px transparent, 
+        -17px 34px 1px transparent, 
+        -18px 36px 1px transparent, 
+        -19px 38px 1px transparent, 
+        -20px 40px 1px transparent, 
+        -21px 42px 1px transparent, 
+        -22px 44px 1px transparent, 
+        -23px 46px 1px transparent, 
+        -24px 48px 1px transparent, 
+        -25px 50px 1px transparent, 
+        -26px 52px 1px transparent, 
+        -27px 54px 1px transparent, 
+        -28px 56px 1px transparent;
+    }
+
+
+.parallax {
+    height: 100%;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#main-form {
+    color: white;
+    font-family: fantasy;
+    font-size: 1.5em;
+    text-align: center;
+    margin-top: 10%;
+}
+
+#title {
+    text-shadow: 3px 2px #555555;
+    font-size: 2em;
+}
+
+#form-text {
+    text-shadow: 1px 1px 1px black;
+    font-size: 1.2em;
+}
+
+#guardar-b {
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    border: 2px solid #555555;
+}
+
+#guardar-b:hover {
+    background-color: #555555;
+    color: white;
+}
+
+
+#site-description-text {    
+    margin-top: -25%;
+    font-size: 1.2em;
+    color: white;
+    margin-left: 1%;
+    text-shadow: 0.5px 1px 1.2px black;
+
+}
+
+#link1 {
+    color: rgba(243, 243, 243, 0.863);
+    text-decoration: underline;
+}
+
+#link1:hover {
+    color: rgb(138, 138, 138);
+    
+}
